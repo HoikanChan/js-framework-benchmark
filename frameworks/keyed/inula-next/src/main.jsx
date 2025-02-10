@@ -1,4 +1,4 @@
-import { render, View } from '@openinula/next';
+import { render } from '@openinula/next';
 
 let idCounter = 1;
 
@@ -134,7 +134,7 @@ function App() {
         <tbody>
           <for each={data}>
             {({ id, label }) => (
-              <tr className={selected === id ? 'danger' : ''}>
+              <tr key={id} className={selected === id ? 'danger' : ''}>
                 <td className="col-md-1" textContent={id} />
                 <td className="col-md-4">
                   <a onClick={select.bind(this, id)} textContent={label} />
