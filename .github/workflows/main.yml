@@ -51,7 +51,7 @@ jobs:
     - name: Run benchmark
       run: |
         export CHROME_BIN=$(which google-chrome)
-        npm run bench keyed/inula-next --headless true
+        npm run bench keyed/inula-next -- --headless true
         
     # 保存结果
     - name: Upload results
