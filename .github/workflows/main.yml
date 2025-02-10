@@ -1,0 +1,62 @@
+name: Benchmark Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    # 设置 Node.js
+    - name: Setup Node.js 
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        
+    # 设置 Chrome
+    - name: Setup Chrome
+      uses: browser-actions/setup-chrome@v1
+      with:
+        chrome-version: stable
+    
+    # 验证安装
+    - name: Check installations
+      run: |
+        node --version
+        npm --version
+        google-chrome --version
+        
+    # 安装依赖
+    - name: Install dependencies
+      run: |
+        npm install
+        npm run install-webdriver-ts
+        
+    # 启动服务器
+    - name: Start server
+      run: npm start &
+      
+    # 等待服务器启动
+    - name: Wait for server
+      run: sleep 10
+        
+    # # 运行测试
+    # - name: Run benchmark
+    #   run: |
+    #     export CHROME_BIN=$(which google-chrome)
+    #     npm run build -- --check
+    #     npm run bench -- --headless
+        
+    # # 保存结果
+    # - name: Upload results
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: benchmark-results
+    #     path: webdriver-ts/results
