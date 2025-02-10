@@ -41,11 +41,11 @@ jobs:
         
     # 启动服务器
     - name: Start server
-      run: npm start
+      run: npm start &
       
     # 等待服务器启动
     - name: Wait for server
-      run: sleep 10
+      run: npx wait-on http://localhost:8000 -t 60000
         
     # 运行测试
     - name: Run benchmark
