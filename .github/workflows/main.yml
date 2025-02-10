@@ -18,7 +18,7 @@ jobs:
     - name: Setup Node.js 
       uses: actions/setup-node@v3
       with:
-        node-version: 18
+        node-version: 20
         
     # 设置 Chrome
     - name: Setup Chrome
@@ -41,22 +41,21 @@ jobs:
         
     # 启动服务器
     - name: Start server
-      run: npm start &
+      run: npm start
       
     # 等待服务器启动
     - name: Wait for server
       run: sleep 10
         
-    # # 运行测试
-    # - name: Run benchmark
-    #   run: |
-    #     export CHROME_BIN=$(which google-chrome)
-    #     npm run build -- --check
-    #     npm run bench -- --headless
+    # 运行测试
+    - name: Run benchmark
+      run: |
+        export CHROME_BIN=$(which google-chrome)
+        npm run bench keyed/inula-next
         
-    # # 保存结果
-    # - name: Upload results
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: benchmark-results
-    #     path: webdriver-ts/results
+    # 保存结果
+    - name: Upload results
+      uses: actions/upload-artifact@v3
+      with:
+        name: benchmark-results
+        path: webdriver-ts/results
