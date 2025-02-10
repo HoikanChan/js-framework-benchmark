@@ -45,7 +45,7 @@ jobs:
       
     # 等待服务器启动
     - name: Wait for server
-      run: npx wait-on http://localhost:8000 -t 60000
+      run: npx wait-on http://localhost:8080 -t 60000 -v
         
     # 运行测试
     - name: Run benchmark
