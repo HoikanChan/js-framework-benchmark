@@ -53,9 +53,20 @@ jobs:
         export CHROME_BIN=$(which google-chrome)
         npm run bench keyed/inula-next -- --headless true
         
-    # 保存结果
+    # 保存结果数据
     - name: Upload results
       uses: actions/upload-artifact@v4
       with:
         name: benchmark-results
         path: webdriver-ts/results
+
+    # 生成结果页面
+    - name: Build results report
+      run: npm run results
+
+    # 保存结果页面
+    - name: Upload results
+      uses: actions/upload-artifact@v4
+      with:
+        name: benchmark-reports
+        path: webdriver-ts-results/dist
