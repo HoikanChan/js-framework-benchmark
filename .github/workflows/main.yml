@@ -39,6 +39,14 @@ jobs:
         npm install
         npm run install-webdriver-ts
         npm run install-webdriver-ts-results
+
+    # 打包inula
+    - name: Build inula-next
+      run: |
+        cd frameworks/keyed/inula-next
+        npm install
+        npm run build
+        cd ../../..
         
     # 启动服务器
     - name: Start server
@@ -52,7 +60,7 @@ jobs:
     - name: Run benchmark
       run: |
         export CHROME_BIN=$(which google-chrome)
-        npm run bench keyed/inula-next -- --headless true
+        npm run bench keyed/inula-next keyed/angular-cf-signals keyed/react-hooks keyed/svelte keyed/vue keyed/solid -- --headless true
         
     # 保存结果数据
     - name: Upload results
@@ -71,3 +79,14 @@ jobs:
       with:
         name: benchmark-reports
         path: webdriver-ts-results/dist
+
+    # Deploy to GitHub Pages
+    - name: Deploy to GitHub Pages
+      if: github.ref == 'refs/heads/main' # Only deploy on main branch
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./webdriver-ts-results/dist
+        publish_branch: gh-pages
+        full_commit_message: Update benchmark results
+        enable_jekyll: false
